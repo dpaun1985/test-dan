@@ -3,7 +3,7 @@ namespace App\Service;
 
 use App\Model\Client;
 
-class WithdrawFeeCalculator
+class WithdrawFeeCalculator implements FeeCalculatorInterface
 {
     private const BUSINESS_FEE_PERCENTAGE = 0.5;
     private const PRIVATE_FEE_PERCENTAGE = 0.3;
@@ -57,6 +57,7 @@ class WithdrawFeeCalculator
      */
     private function calculateWithdrawClientPrivate(Client $client): float
     {
+        // Convert the amount to EUR for fee calculation.
         $amountEur =  $this->currencyExchangeService->convert($client->getAmount(), $client->getCurrency(), 'EUR');
         $clientId = $client->getClientId();
         $clientDate = $client->getDate();
@@ -69,16 +70,21 @@ class WithdrawFeeCalculator
         $nrPreviousWithdraw = !$hadPreviousWithdraw ? 0 : $this->privateAmountWeeks[$clientId][$weekIdentifier]['count'];
 
         $amountForFee = $this->getAmountForFee($previousAmount, $amountEur, $nrPreviousWithdraw);
+
+        //Update the amount and count for the current week.
         $this->privateAmountWeeks[$clientId][$weekIdentifier] = [
             'amount' => $previousAmount + $amountEur,
             'count' => $nrPreviousWithdraw++,
         ];
+
+        // If the amount for fee is 0, no fee is applicable.
         if (0 === $amountForFee) {
             return 0;
         }
 
         $fee = $amountForFee * self::PRIVATE_FEE_PERCENTAGE / 100;
 
+        // Convert the fee in the client's currency.
         return $this->currencyExchangeService->convert($fee, 'EUR', $client->getCurrency());
     }
 

@@ -1,18 +1,20 @@
 <?php
 namespace App\Service;
 
-class DepositFeeCalculator
+use App\Model\Client;
+
+class DepositFeeCalculator implements FeeCalculatorInterface
 {
     private const DEPOSIT_FEE_PERCENTAGE = 0.03;
 
     /**
      * Calculate the deposit fee based on the amount.
      *
-     * @param float $amount
+     * @param Client $client
      * @return float
      */
-    public function calculateFee(float $amount): float
+    public function calculateFee(Client $client): float
     {
-        return $amount * self::DEPOSIT_FEE_PERCENTAGE / 100;
+        return $client->getAmount() * self::DEPOSIT_FEE_PERCENTAGE / 100;
     }
 }

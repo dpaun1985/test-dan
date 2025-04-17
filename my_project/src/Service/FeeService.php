@@ -30,7 +30,7 @@ class FeeService
         $client = new Client( $clientData );
 
         if ( self::OPERATION_DEPOSIT === $client->getAction() ) {
-            $fee = $this->depositFeeCalculator->calculateFee($client->getAmount());
+            $fee = $this->depositFeeCalculator->calculateFee($client);
         }
         if ( self::OPERATION_WITHDRAW === $client->getAction() ) {
             $fee = $this->withdrawFeeCalculator->calculateFee($client);
