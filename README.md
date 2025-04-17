@@ -62,5 +62,11 @@ File example:
    - The sixth column is the currency (EUR, USD, JPY ...).
 2. Run the command to calculate fees:
    ```bash
-   docker exec -it <docker_container_name> php bin/console app:calculate-fee <input>.csv
+   docker exec -it <docker_container_name> php my_project/bin/console app:calculate-fee <input>.csv
+   ```
+
+## Testing
+1. Run the tests using PHPUnit:
+   ```bash
+   docker exec -it <docker_container_name> php my_project/bin/phpunit my_project/tests
    ```
