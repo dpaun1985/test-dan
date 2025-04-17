@@ -1,4 +1,5 @@
 my_project/.env.local
+my_project/.env.dev
 my_project/.env.local.php
 my_project/.env.*.local
 my_project/config/secrets/prod/prod.decrypt.private.php
