@@ -1,8 +1,14 @@
 <?php
 namespace App\Service;
 
-use App\Validator\ClientValidator;
+use App\Service\ClientValidator;
 use App\Model\Client;
+use App\Service\Validator\ActionValidator;
+use App\Service\Validator\DateValidator;
+use App\Service\Validator\NrFieldsValidator;
+use App\Service\Validator\NumericValidator;
+use App\Service\Validator\StringValidator;
+use App\Service\Validator\TypeValidator;
 
 class FeeService
 {
@@ -26,7 +32,14 @@ class FeeService
     public function calculateFee(array $clientData): string
     {
         // Validate the client data.
-        $this->clientValidator->validate($clientData);
+        $this->clientValidator
+            ->add(new NrFieldsValidator($clientData))
+            ->add(new StringValidator([$clientData[2], $clientData[3], $clientData[5]]))
+            ->add(new NumericValidator([$clientData[1], $clientData[4]]))
+            ->add(new DateValidator($clientData[0]))
+            ->add(new TypeValidator($clientData[2]))
+            ->add(new ActionValidator($clientData[3]))
+            ->validate();
         $client = new Client( $clientData );
 
         if ( self::OPERATION_DEPOSIT === $client->getAction() ) {

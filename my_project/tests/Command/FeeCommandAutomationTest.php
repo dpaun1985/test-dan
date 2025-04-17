@@ -10,7 +10,7 @@ use App\Service\FeeService;
 use Symfony\Component\Console\Command\Command;
 use \App\Service\DepositFeeCalculator;
 use \App\Service\WithdrawFeeCalculator;
-use \App\Validator\ClientValidator;
+use \App\Service\ClientValidator;
 use \App\Service\ExchangeApiService;
 use \PHPUnit\Framework\MockObject\MockObject;
 

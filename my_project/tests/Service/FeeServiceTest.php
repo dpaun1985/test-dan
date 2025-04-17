@@ -1,15 +1,13 @@
 <?php
 namespace App\Tests\Service;
 
-use App\Command\FeeCommand;
 use App\Service\CurrencyExchangeService;
 use App\Service\DepositFeeCalculator;
 use App\Service\ExchangeApiService;
 use App\Service\WithdrawFeeCalculator;
-use App\Validator\ClientValidator;
+use App\Service\ClientValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use App\Model\Client;
 use \App\Service\FeeService;
 
 class FeeServiceTest extends TestCase
